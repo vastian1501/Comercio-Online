@@ -71,3 +71,10 @@ select articulos.descripcion,articulos.precio from articulos
 select producto.descipcion, producto.precio from producto
 where producto.precio = (select max(producto.precio) from producto) 
 or producto.precio = (select min(producto.precio) from producto);
+
+-- Mostrar el nombre y apellidos de los 10 clientes que más compras han realizado y mostrar tabien el total 
+select cliente.nombre, cliente.apellidos, sum(pedido.importe) as total 
+from cliente , pedido
+where cliente.id_cliente = pedido.id_pedido
+group by pedido.id_clientes order by total desc
+limit 10;
