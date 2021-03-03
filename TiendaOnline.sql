@@ -19,9 +19,9 @@ create table vendedor (
 )engine=InnoDB;
 
 create table categoria (
-	id_categoria int(3) not null primary key,
-	nombre varchar(14),
-	descripcion varchar(40)
+	id_categoria int(3) not null auto_increment primary key,
+	nombre varchar(30),
+	descripcion varchar(60)
 )engine=InnoDB;
 
 create table producto (
@@ -37,13 +37,13 @@ create table producto (
 )engine=InnoDB;
 
 create table pedido (
-id_pedido int(2) not null auto_increment primary key,
-nombre varchar(14),
-fecha datetime,
-total int(7),
-cantidad int(7),
-dni_cliente varchar(9),
-id_producto int(3),
-constraint pedido_FK foreign key (dni_cliente) references cliente(dni),
-constraint pedido_FK2 foreign key (id_producto) references producto(id_producto)
+	id_pedido int(2) not null auto_increment primary key,
+	nombre varchar(14),
+	fecha datetime,
+	total int(7),
+	cantidad int(7),
+	dni_cliente varchar(9),
+	id_producto int(3),
+	constraint pedido_FK foreign key (dni_cliente) references cliente(dni),
+	constraint pedido_FK2 foreign key (id_producto) references producto(id_producto)
 )engine=InnoDB;
