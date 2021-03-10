@@ -1,50 +1,5 @@
 
 
-cliente (
-dni 
-nombre 
-apellidos 
-direccion 
-email 
-tlfn
-)
-
-create table vendedor (
-id_vendedor 
-nombre 
-direccion 
-
-
-create table categoria (
-id_categoria
-nombre 
-descripcion 
-)
-
-create table producto (
-id_producto 
-nombre 
-descripcion 
-precio
-stock 
-id_vendedor 
-id_categoria
-constraint producto_FK foreign key (id_vendedor) references vendedor(id_vendedor),
-constraint producto_FK2 foreign key (id_categoria) references categoria(id_categoria)
-)
-
-create table pedido (
-id_pedido 
-nombre 
-fecha 
-total 
-cantidad 
-dni_cliente 
-id_producto 
-constraint pedido_FK foreign key (dni_cliente) references cliente(dni),
-constraint pedido_FK2 foreign key (id_producto) references producto(id_producto)
-)
-
 -- Mostrar la cantidad de productos que fueron vendidos por cada vendedor
 select producto.nombre as Producto, vendedor.nombre as Vendedor, count(pedido.cantidad) as TOTAL 
 from producto,vendedor,pedido
@@ -78,3 +33,23 @@ from cliente , pedido
 where cliente.id_cliente = pedido.id_pedido
 group by pedido.id_clientes order by total desc
 limit 10;
+
+-- Mostrar telefono de los clientes que compraron en el mes de Abril
+select distinct cliente.nombre, cliente.tlfn, pedido.fecha from cliente, pedido where cliente.dni = pedido.dni_cliente
+and month(pedido.fecha)=04;
+
+-- Mostrar los distintas categorias que hay en la tienda online
+select categoria.nombre from categoria group by categoria.nombre;
+
+-- Mostrar la media de ventas por mes en el primer semestre del año 2020 
+select truncate(avg(total),2) as total_ventas, month(fecha)
+as mes from pedido
+where fecha between '2020-01-01' and '2020-06-30' group by 2 order by 2 asc;
+
+-- Mostrar el nombre y apellidos de los 4 primeros clientes que menos compras han realizado 
+-- y tambien el total de dichas compras 
+select cliente.nombre, cliente.apellidos, sum(pedido.total) as Total 
+from cliente , pedido
+where cliente.dni = pedido.dni_cliente
+group by pedido.dni_ order by Total asc
+limit 4;
